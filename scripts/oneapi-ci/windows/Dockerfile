@@ -57,6 +57,13 @@ RUN choco install cygwin --params="/InstallDir:c:\cygwin64" && \
 # Add Miniforge3 to PATH
 RUN setx PATH "$env:path;C:\tools\miniforge3;C:\tools\miniforge3\Scripts;C:\tools\miniforge3\Library\bin"
 
+# Set TEMP and TMP to C:\Temp
+RUN rmdir /S /Q C:\TEMP && mkdir C:Temp
+RUN powershell -Command \
+    "[Environment]::SetEnvironmentVariable('TEMP', 'C:\Temp', [System.EnvironmentVariableTarget]::User); \
+    [Environment]::SetEnvironmentVariable('TMP', 'C:\Temp', [System.EnvironmentVariableTarget]::User); \
+    New-Item -ItemType Directory -Force -Path 'C:\Temp'"
+
 # Refresh environment to pick up new PATH
 RUN refreshenv
 
@@ -64,11 +71,14 @@ RUN refreshenv
 RUN conda install -y python=3.12 conda-build && \
     echo conda-build:> %USERPROFILE%\.condarc && echo   pkg_format: 1 >> %USERPROFILE%\.condarc
 
+# Set pip trusted hosts
+RUN pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org af-satgoneapi.devtools.intel.com"
+RUN pip config list
+
 # Clean up and verify installations
 SHELL ["cmd", "/S", "/C"]
 RUN refreshenv
-RUN rmdir /S /Q C:\TEMP && \
-    cmake --version && git --version && \
+RUN cmake --version && git --version && \
     curl -V && tar --help && 7z && unzip && wget --version && \
     conda --version && python --version && pip list && \
     openssl --version && systeminfo

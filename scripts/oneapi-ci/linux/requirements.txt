@@ -1,0 +1,5 @@
+--extra-index-url https://af-owr.devtools.intel.com/artifactory/api/pypi/one-windows-pypi-local/simple
+
+abi-builder==3.3.0
+abi-bdba-scan==3.3.0
+abi-coverity-scan==3.3.0
