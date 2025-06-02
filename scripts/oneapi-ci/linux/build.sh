@@ -85,6 +85,8 @@ build_conda_package() {
 }
 
 copy_artifacts() {
+  cd "$BASE_DIR"
+  pwd
   local ARTIFACTS_DIR="$BASE_DIR/artifacts"
   mkdir -p "$ARTIFACTS_DIR"
 
