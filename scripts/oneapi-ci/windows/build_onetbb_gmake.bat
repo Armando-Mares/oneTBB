@@ -6,7 +6,7 @@ set "BASE_DIR=%~1"
 REM Print it for logging
 echo Current working directory: "BASE_DIR=%~1"
 
-call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
 cd "%BASE_DIR%\onetbb-ci\onetbb_source_code"
 mkdir build_gmake
 cd build_gmake
